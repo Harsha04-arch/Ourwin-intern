@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.R. Rahman Live in Concert — Island Grounds, Chennai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Floating Particle Canvas Background -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Spotlight Beams Overlay -->
+  <div class="spotlight-beams" aria-hidden="true">
+    <div class="beam beam-1"></div>
+    <div class="beam beam-2"></div>
+  </div>
+
+  <!-- Screen flash & ripple for impact effect -->
+  <div id="mascot-flash" aria-hidden="true"></div>
+  <div id="mascot-ripple" aria-hidden="true"></div>
+
+  <!-- MetaMask-style canvas mascot -->
+  <div class="mascot-3d-wrap" id="mascot-wrap">
+    <div class="mascot-bubble" id="mascot-bubble">Hey! Scroll down to explore the maestro's world! 🎵</div>
+    <canvas id="mascot-canvas" width="140" height="200" aria-label="Interactive concert companion"></canvas>
+  </div>
+
+  <main class="scroll-container">
+    
+    <!-- SECTION 1: HERO -->
+    <section class="sec sec--hero" id="sec-hero" aria-label="Hero Reveal">
+      <div class="hero-bg-parallax">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg/1920px-Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg"
+          srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg/960px-Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg 960w,
+                  https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg/1280px-Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg 1280w,
+                  https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg/1920px-Nobel_Peace_Prize_Concert_2010_A.R._Rahman_IMG_7174.jpg 1920w"
+          sizes="100vw"
+          alt="A.R. Rahman Live"
+          class="hero-img"
+          fetchpriority="high">
+        <div class="sec-overlay sec-overlay--hero"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-header-wrap">
+          <p class="ad-tag gsap-reveal" data-delay="0.1">A.R. Rahman Live in Chennai</p>
+          <h1 class="hero-title gsap-reveal-chars">A.R. RAHMAN</h1>
+          <h2 class="hero-subtitle gsap-reveal" data-delay="0.3">LIVE IN CONCERT</h2>
+          <p class="hero-desc gsap-reveal" data-delay="0.4">
+            Experience an unforgettable night of celestial music, majestic visual mastery, and pure emotion with the Oscar-winning maestro.
+          </p>
+        </div>
+        <div class="hero-actions gsap-reveal" data-delay="0.5">
+          <button type="button" class="btn-scroll-explore" id="explore-cta">
+            <span>Explore Experience</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="scroll-prompt">
+        <span>Scroll to enter the concert</span>
+        <div class="prompt-mouse">
+          <div class="wheel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE EXPERIENCE (OVERVIEW) -->
+    <section class="sec sec--experience" id="sec-experience" aria-label="The Experience">
+      <div class="sec-bg-glow"></div>
+      <div class="container">
+        <div class="sec-grid">
+          <div class="sec-left">
+            <p class="ad-tag">The Maestro</p>
+            <h2 class="sec-title">A Symphony of Soul &amp; Sound</h2>
+            <p class="sec-lead">
+              A.R. Rahman is coming home to Chennai. This isn't just a concert—it's a landmark cultural event where timeless melodies fuse with avant-garde stage design.
+            </p>
+            <div class="experience-quote">
+              <p>“Music has a language of its own. It speaks to the heart when words fail.”</p>
+              <cite>— A.R. Rahman</cite>
+            </div>
+          </div>
+          <div class="sec-right">
+            <div class="parallax-media-box">
+              <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80" alt="Live crowd" class="parallax-img">
+              <div class="media-box-accent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SOUND & VISUALS (INTERACTIVE WAVEFORM) -->
+    <section class="sec sec--sound" id="sec-sound" aria-label="Sound & Visual Production">
+      <div class="container">
+        <div class="sec-header text-center">
+          <p class="ad-tag">Production</p>
+          <h2 class="sec-title">Immersive Audiovisual Technology</h2>
+          <p class="sec-subtitle">Feel every beat resonate through your soul. Powered by studio-grade L-Acoustics arrays and panoramic 8K LED walls.</p>
+        </div>
+        
+        <!-- Interactive Waveform Area -->
+        <div class="waveform-container">
+          <canvas id="waveform-canvas"></canvas>
+          <div class="waveform-overlay-content">
+            <div class="waveform-badge">
+              <span class="live-dot"></span>
+              <span>120dB Crystal-Clear Soundstage</span>
+            </div>
+            <h3>Interactive Soundscape</h3>
+            <p>Scroll or move your mouse to modulate the maestro's signature soundwaves</p>
+          </div>
+        </div>
+
+        <div class="specs-row">
+          <div class="spec-card">
+            <h4>360° Spatial Audio</h4>
+            <p>State-of-the-art acoustic mapping ensures perfect sound density from front row to lawn.</p>
+          </div>
+          <div class="spec-card">
+            <h4>Cinematic Stage Screens</h4>
+            <p>Giant holographic projections and laser displays dancing in synchrony with each track.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SEATING & COMFORT -->
+    <section class="sec sec--seating" id="sec-seating" aria-label="Seating and View">
+      <div class="sec-bg-glow"></div>
+      <div class="container">
+        <div class="sec-grid sec-grid--reverse">
+          <div class="sec-left">
+            <p class="ad-tag">Premium Comfort</p>
+            <h2 class="sec-title">Designed for Ultimate Views</h2>
+            <p class="sec-lead">
+              Every zone is custom-designed with tiered sightlines to ensure an unobstructed, breathtaking perspective of the maestro's stage.
+            </p>
+            <ul class="seating-list">
+              <li>
+                <span class="icon">👑</span>
+                <div>
+                  <h5>VIP Center Stage</h5>
+                  <p>Front-row plush seating with premium lounge access and dedicated waitstaff.</p>
+                </div>
+              </li>
+              <li>
+                <span class="icon">✨</span>
+                <div>
+                  <h5>Premium Tiered Grandstands</h5>
+                  <p>Elevated, ergonomic seating providing the absolute best panoramic acoustic and visual mix.</p>
+                </div>
+              </li>
+              <li>
+                <span class="icon">🌿</span>
+                <div>
+                  <h5>Lawn Experience</h5>
+                  <p>Casual open-air vibe with premium grass access, picnic style comfort, and massive secondary screen towers.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="sec-right">
+            <div class="seating-map-interactive">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80" alt="Concert Arena Seating" class="parallax-img">
+              <div class="map-card-overlay">
+                <span class="badge">99.8% Perfect Sightlines</span>
+                <h4>Accessibility Priority</h4>
+                <p>Fully compliant ramp systems, dedicated accessible seat bays, and companion support desks throughout the venue.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: FOOD & HOSPITALITY -->
+    <section class="sec sec--dining" id="sec-dining" aria-label="Food & Dining">
+      <div class="container">
+        <div class="sec-header text-center">
+          <p class="ad-tag">Dining in Style</p>
+          <h2 class="sec-title">Premium Gastronomy &amp; Hospitality</h2>
+          <p class="sec-subtitle">Indulge in a curated culinary journey. Over 40 premium street-food pop-ups and full dietary-tailored catering lounges.</p>
+        </div>
+
+        <div class="dining-cards-grid">
+          <div class="dining-card card-reveal">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80" alt="Luxury Lounge">
+            </div>
+            <div class="card-body">
+              <span class="card-badge">VIP Exclusive</span>
+              <h3>Signature VIP Lounge</h3>
+              <p>Five-star catered menus featuring signature dishes from Chennai's premier fine-dining chefs.</p>
+              <ul class="card-features">
+                <li>Pre-concert hors d'oeuvres</li>
+                <li>Reserved complimentary dining area</li>
+                <li>Premium craft mocktails &amp; bars</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dining-card card-reveal">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Gourmet Food Truck">
+            </div>
+            <div class="card-body">
+              <span class="card-badge">Public Access</span>
+              <h3>Festival Food Avenue</h3>
+              <p>A bustling street of flavor featuring multi-cuisine gourmet tracks, local delicacies, and cooling hydration hubs.</p>
+              <ul class="card-features">
+                <li>100% vegetarian &amp; vegan pathways</li>
+                <li>Contactless smart card payment</li>
+                <li>Strict hygiene &amp; safety certified</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: DIGITAL COMPANION (MOBILE APP) -->
+    <section class="sec sec--mobile" id="sec-mobile" aria-label="Mobile Application">
+      <div class="sec-bg-glow"></div>
+      <div class="container">
+        <div class="sec-grid">
+          <div class="sec-left">
+            <p class="ad-tag">Digital Concierge</p>
+            <h2 class="sec-title">The Pocket Concert Companion</h2>
+            <p class="sec-lead">
+              Control your entire evening right from your palm. Skip queues, track services, and interact with the concert stage live.
+            </p>
+            <div class="mobile-features">
+              <div class="m-feat">
+                <span class="m-feat-icon">🗺️</span>
+                <div>
+                  <h5>Interactive 3D GPS Arena Map</h5>
+                  <p>Get real-time directions to your precise seat, food stalls, restrooms, and emergency aid points.</p>
+                </div>
+              </div>
+              <div class="m-feat">
+                <span class="m-feat-icon">⚡</span>
+                <div>
+                  <h5>Express Food Ordering</h5>
+                  <p>Order food and beverages directly from your seat and receive a push alert when it's ready for express pickup.</p>
+                </div>
+              </div>
+              <div class="m-feat">
+                <span class="m-feat-icon">🔔</span>
+                <div>
+                  <h5>Exclusive Live Show Alerts</h5>
+                  <p>Receive exclusive push updates, song requests, digital lights sync prompts, and merchandise drops.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-right text-center">
+            <div class="app-mockup-wrapper">
+              <div class="app-screen">
+                <div class="app-header">
+                  <span class="app-dot"></span>
+                  <div class="app-logo">A.R. RAHMAN LIVE</div>
+                  <span class="app-battery">🔋</span>
+                </div>
+                <div class="app-body">
+                  <div class="app-ticket-card">
+                    <span class="vip-gold-text">VIP TICKET</span>
+                    <h4>ANANTH H.</h4>
+                    <p>Zone: VIP-A · Row 3 · Seat 12</p>
+                    <div class="app-qr">
+                      <svg viewBox="0 0 100 100" width="80" height="80">
+                        <rect x="0" y="0" width="100" height="100" fill="#fff" />
+                        <rect x="10" y="10" width="20" height="20" fill="#000" />
+                        <rect x="70" y="10" width="20" height="20" fill="#000" />
+                        <rect x="10" y="70" width="20" height="20" fill="#000" />
+                        <rect x="35" y="35" width="30" height="30" fill="#000" />
+                        <rect x="75" y="75" width="15" height="15" fill="#000" />
+                      </svg>
+                    </div>
+                    <span class="qr-sub">Scan at Contactless Gate</span>
+                  </div>
+                  <div class="app-song-vote">
+                    <p class="vote-title">VOTE NEXT TRACK</p>
+                    <button class="vote-option">Dil Se Re (Acoustic Version)</button>
+                    <button class="vote-option active">Kun Faya Kun (Sufi Ensemble) 🌟</button>
+                  </div>
+                </div>
+              </div>
+              <div class="app-shadow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: VENUE SHOWCASE (ISLAND GROUNDS) -->
+    <section class="sec sec--venue" id="sec-sec-venue" aria-label="Venue and Logistics">
+      <div class="venue-full-bg">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80" alt="Island Grounds Arena" class="venue-bg-img">
+        <div class="sec-overlay sec-overlay--venue"></div>
+      </div>
+      <div class="container relative-z">
+        <div class="venue-info-box">
+          <p class="ad-tag">The Arena</p>
+          <h2>Island Grounds, Chennai</h2>
+          <p class="venue-desc">
+            Nestled in the heart of Chennai, surrounded by the scenic Cooum River, Island Grounds provides a sprawling, high-capacity, iconic open-air arena for an epic evening of music.
+          </p>
+          <div class="venue-stats">
+            <div class="v-stat">
+              <span class="stat-number">40K+</span>
+              <span class="stat-label">Capacity Arena</span>
+            </div>
+            <div class="v-stat">
+              <span class="stat-number">2000+</span>
+              <span class="stat-label">Secure Parking Bays</span>
+            </div>
+            <div class="v-stat">
+              <span class="stat-number">15+</span>
+              <span class="stat-label">EV Charging Hubs</span>
+            </div>
+          </div>
+          <div class="shuttle-info">
+            <span class="shuttle-icon">🚍</span>
+            <p><strong>Complimentary Shuttle Routes:</strong> Free continuous shuttle loop running from Central &amp; Egmore stations directly to the gate from 3:00 PM onwards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: FAN ENGAGEMENT & ACTIVITIES -->
+    <section class="sec sec--merch" id="sec-merch" aria-label="Fan Engagement">
+      <div class="container">
+        <div class="sec-header text-center">
+          <p class="ad-tag">Interactive Fun</p>
+          <h2 class="sec-title">Fan Engagement Zones</h2>
+          <p class="sec-subtitle">Arrive early to participate in curated activations, explore official limited-edition tour merchandise, and capture lifelong memories.</p>
+        </div>
+
+        <div class="horizontal-scroll-outer" id="horiz-gallery-wrap">
+          <div class="horizontal-scroll-inner" id="horiz-gallery">
+            
+            <div class="gallery-item">
+              <div class="gallery-img-wrap">
+                <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=600&q=80" alt="Official Merchandise">
+              </div>
+              <div class="gallery-content">
+                <h3>Tour Merchandise Vault</h3>
+                <p>Pick up limited-edition hoodies, collector posters, vinyl records, and wearable smart lights synced to the concert soundboard.</p>
+              </div>
+            </div>
+
+            <div class="gallery-item">
+              <div class="gallery-img-wrap">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="Photo Booths">
+              </div>
+              <div class="gallery-content">
+                <h3>Holographic Photo Pavilions</h3>
+                <p>Immortalize your concert night with high-fidelity, interactive AR photo zones and digital master backgrounds.</p>
+              </div>
+            </div>
+
+            <div class="gallery-item">
+              <div class="gallery-img-wrap">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80" alt="Maestro Studio">
+              </div>
+              <div class="gallery-content">
+                <h3>Maestro Studio Experience</h3>
+                <p>Step inside an interactive audio pod to remix A.R. Rahman's classic tracks using custom touch boards.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: SECURITY, SUSTAINABILITY & CARE -->
+    <section class="sec sec--sustainability" id="sec-sustainability" aria-label="Care and Sustainability">
+      <div class="sec-bg-glow"></div>
+      <div class="container">
+        <div class="sec-header text-center">
+          <p class="ad-tag">Responsibility &amp; Trust</p>
+          <h2 class="sec-title">A Safe, Sustainable Celebration</h2>
+          <p class="sec-subtitle">We are deeply committed to ensuring a secure environment for all fans, while taking bold steps to minimize our ecological footprint.</p>
+        </div>
+
+        <div class="responsibility-grid">
+          <div class="resp-card card-reveal">
+            <span class="resp-icon">🛡️</span>
+            <h3>World-Class Security</h3>
+            <p>1,200+ trained crowd management personnel, comprehensive CCTV security systems, and highly equipped, dedicated on-site emergency medical response wards.</p>
+          </div>
+
+          <div class="resp-card card-reveal">
+            <span class="resp-icon">🌱</span>
+            <h3>Green Concert Initiative</h3>
+            <p>Our zero-single-use-plastic mandate, fully compostable food service items, and certified carbon-offset projects planting local saplings across Chennai.</p>
+          </div>
+
+          <div class="resp-card card-reveal">
+            <span class="resp-icon">🤝</span>
+            <h3>Continuous Customer Care</h3>
+            <p>24/7 online booking helpline, three multi-lingual help counters placed outside the gates, and instant support inside our official mobile concierge.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: CALL TO ACTION & GUIDANCE -->
+    <section class="sec sec--cta" id="sec-cta" aria-label="Ticket Booking Guide">
+      <div class="container text-center">
+        <div class="cta-inner">
+          <p class="ad-tag pulsing-tag">Only a few seats remain</p>
+          <h2 class="cta-heading">Your Spot at the Maestro's Masterclass Awaits</h2>
+          <p class="cta-lead">
+            Be part of the defining musical event of 2026. Secure your ticket today for an unforgettable, spellbinding night in Chennai.
+          </p>
+
+          <!-- Guide visual pointing to top-right burger menu -->
+          <div class="final-booking-guide">
+            <div class="pointing-arrow-wrap">
+              <svg class="final-pointing-arrow" viewBox="0 0 100 100" aria-hidden="true">
+                <path class="arrow-line" d="M10 90 Q 60 70 80 20" fill="none" stroke="#d4af37" stroke-width="4" stroke-linecap="round" />
+                <path class="arrow-head" d="M80 20 L66 22 M80 20 L78 36" fill="none" stroke="#d4af37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <p class="guide-text">Click the golden button in the top-right corner to book your seats!</p>
+          </div>
+
+          <button type="button" class="btn-primary-glow" id="cta-book-trigger">
+            <span>Begin Booking Experience</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Verbatim Preserved Side Panel, Burger Menu, Success Celebration Modals -->
+  <!-- Menu with ticket guide (highlight on last slide) -->
+  <div class="menu-anchor" id="menu-anchor">
+    <div class="menu-guide" id="menu-guide" aria-hidden="true">
+      <p class="menu-guide-label">Get your tickets here</p>
+      <svg class="menu-guide-arrow" viewBox="0 0 120 80" aria-hidden="true">
+        <path d="M8 40 C35 40, 45 12, 72 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M72 18 L62 14 M72 18 L68 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="menu-guide-ring" aria-hidden="true"></span>
+    </div>
+    <button type="button" class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="side-panel">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </button>
+  </div>
+
+  <!-- Side panel (drawer) -->
+  <aside id="side-panel" class="side-panel" role="dialog" aria-label="Interest & booking options" aria-modal="true" aria-hidden="true">
+    <div class="panel-inner">
+      <header class="panel-header">
+        <h2>Get your tickets</h2>
+        <button type="button" class="close-btn" aria-label="Close menu">&times;</button>
+      </header>
+
+      <div class="panel-steps" id="panel-steps" role="tablist" aria-label="Form steps">
+        <button type="button" class="step-dot active" data-step="0" aria-current="step" aria-label="Step 1: Interest">1</button>
+        <button type="button" class="step-dot" data-step="1" aria-label="Step 2: Ticket">2</button>
+        <button type="button" class="step-dot" data-step="2" aria-label="Step 3: Personal details">3</button>
+        <button type="button" class="step-dot" data-step="3" aria-label="Step 4: Food & allergy">4</button>
+      </div>
+
+      <form class="panel-form" id="interest-form">
+        <!-- Step 0: Interest onboarding page [NEW] -->
+        <div class="form-step active" data-step="0" id="form-step-0">
+          <div class="interest-intro">
+            <h3 class="interest-title">Would you like to be part of the A.R. Rahman Live Concert Experience?</h3>
+            <p class="interest-subtitle">Reserve your place for an unforgettable evening of music, lights, and memories.</p>
+            
+            <div class="interest-actions">
+              <button type="button" class="btn-primary" id="interest-btn-yes">Interested</button>
+              <button type="button" class="btn-secondary" id="interest-btn-no">Not Interested</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1: Ticket Quantity & Seat Preference -->
+        <div class="form-step" data-step="1" id="form-step-1" hidden>
+          <fieldset class="fieldset">
+            <legend>Are you interested?</legend>
+            <div class="option-row">
+              <label class="option-card">
+                <input type="radio" name="interested" value="yes" required>
+                <span>Yes</span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="interested" value="no">
+                <span>No</span>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset companions-fieldset" id="companions-fieldset" hidden>
+            <legend>How many companions?</legend>
+            <div class="companions-control">
+              <button type="button" class="stepper-btn" data-action="minus" aria-label="Decrease">−</button>
+              <output class="companions-value" id="companions-value" for="companions-input">0</output>
+              <button type="button" class="stepper-btn" data-action="plus" aria-label="Increase">+</button>
+            </div>
+            <input type="range" id="companions-input" name="companions" min="0" max="10" value="0" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+          </fieldset>
+          <fieldset class="fieldset seating-fieldset" id="seating-fieldset" hidden>
+            <legend>Seating arrangement</legend>
+            <select id="seating-select" name="seating" aria-label="Choose seating">
+              <option value="">Select preference</option>
+              <option value="vip">VIP — Front & centre</option>
+              <option value="premium">Premium — Best view</option>
+              <option value="standard">Standard — Great value</option>
+              <option value="lawn">Lawn — Open air</option>
+            </select>
+          </fieldset>
+        </div>
+
+        <!-- Step 2: Customer Details Form -->
+        <div class="form-step" data-step="2" id="form-step-2" hidden>
+          <fieldset class="fieldset">
+            <legend>Full name</legend>
+            <input type="text" id="input-name" name="name" placeholder="e.g. John Doe" autocomplete="name" class="input-text">
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>Date of birth</legend>
+            <input type="date" id="input-dob" name="dob" class="input-text" aria-label="Date of birth">
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>Phone</legend>
+            <input type="tel" id="input-phone" name="phone" placeholder="e.g. +91 98765 43210" autocomplete="tel" class="input-text">
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>Email</legend>
+            <input type="email" id="input-email" name="email" placeholder="you@example.com" autocomplete="email" class="input-text">
+          </fieldset>
+        </div>
+
+        <!-- Step 3: Dietary Preferences & Allergies -->
+        <div class="form-step" data-step="3" id="form-step-3" hidden>
+          <fieldset class="fieldset">
+            <legend>Dietary preference</legend>
+            <select id="input-diet" name="diet" class="input-text" aria-label="Dietary preference">
+              <option value="">Select</option>
+              <option value="veg">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="nonveg">Non-vegetarian</option>
+              <option value="none">No preference</option>
+            </select>
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>Allergies or restrictions</legend>
+            <input type="text" id="input-allergies" name="allergies" placeholder="e.g. Nuts, gluten, dairy" class="input-text" aria-label="Allergies or dietary restrictions">
+          </fieldset>
+          <fieldset class="fieldset">
+            <legend>Special food requests (optional)</legend>
+            <textarea id="input-food-notes" name="food_notes" rows="3" placeholder="Any other dietary or accessibility needs…" class="input-text input-textarea"></textarea>
+          </fieldset>
+        </div>
+
+        <div class="form-actions form-actions-steps">
+          <button type="button" class="btn-secondary" id="btn-back" hidden>Back</button>
+          <button type="button" class="btn-primary" id="btn-next">Next</button>
+          <button type="submit" class="btn-primary" id="submit-btn" hidden>Confirm & submit</button>
+        </div>
+      </form>
+
+      <!-- Onboarding Persuasion Modal [NEW] -->
+      <div class="popover-modal" id="persuasion-modal" aria-hidden="true" role="dialog" aria-label="Wait! You Might Miss Something Extraordinary">
+        <div class="popover-content">
+          <h3 class="popover-title">Wait! You Might Miss Something Extraordinary 🎶</h3>
+          <p class="popover-message">Imagine thousands of fans singing together, breathtaking visuals, world-class sound, and a once-in-a-lifetime performance by A.R. Rahman. This is more than a concert—it's an experience you'll remember forever.</p>
+          <p class="popover-extra">Seats are limited and excitement is unlimited. Why not take a look?</p>
+          <div class="popover-actions">
+            <button type="button" class="btn-primary" id="popover-btn-yes">I'm Interested</button>
+            <button type="button" class="btn-secondary" id="popover-btn-no">Maybe Later</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Celebration Success Modal [NEW] -->
+  <div class="success-overlay" id="success-overlay" aria-hidden="true"></div>
+  <div class="success-modal" id="success-modal" aria-hidden="true" role="dialog" aria-label="Booking Confirmed">
+    <div class="success-card">
+      <h3 class="success-title">🎉 Booking Confirmed!</h3>
+      <p class="success-message">Your concert experience has been successfully reserved.</p>
+      
+      <p class="success-subtext">We can't wait to welcome you to A.R. Rahman Live in Concert at Island Grounds, Chennai.</p>
+      
+      <div class="success-highlight">
+        <div class="highlight-item">
+          <span class="highlight-icon" aria-hidden="true">📅</span>
+          <span class="highlight-text">23 May 2026</span>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-icon" aria-hidden="true">🕕</span>
+          <span class="highlight-text">6:00 PM – 11:00 PM</span>
+        </div>
+      </div>
+      
+      <p class="success-closing">Get ready for an unforgettable night of music, energy, and memories. See you at the concert! 🎶</p>
+      
+      <div class="success-actions">
+        <button type="button" class="btn-primary" id="success-btn-done">Done</button>
+        <button type="button" class="btn-secondary" id="success-btn-home">Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay when panel is open -->
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <!-- External Library CDNs (GSAP, GSAP ScrollTrigger, Lenis) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  
+  <!-- Reimagined Engine Script -->
+  <script src="app.js"></script>
+
+</body>
+</html>
