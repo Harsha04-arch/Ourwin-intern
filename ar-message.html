@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Message From A.R. Rahman</title>
+  <meta name="description" content="Watch a special personal message from Oscar-winning maestro A.R. Rahman.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       A.R. Rahman — Special Message Page  (Local Video Player)
+       Dark premium theme, self-contained.
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #c9a227;
+      --gold-pale:  #e6c280;
+      --dark-bg:    #080706;
+      --dark-card:  #0e0c09;
+      --cream:      #f5f0e8;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--dark-bg);
+      color: var(--cream);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- Ambient particles ---- */
+    #arm-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.55;
+    }
+
+    /* ---- Page layout ---- */
+    .arm-page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem 4rem;
+      gap: 2.2rem;
+    }
+
+    /* ---- Back link ---- */
+    .arm-back {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(245,240,232,0.55);
+      text-decoration: none;
+      transition: color 0.25s ease;
+      z-index: 10;
+      cursor: pointer;
+    }
+    .arm-back:hover { color: var(--gold-pale); }
+    .arm-back svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ---- Heading ---- */
+    .arm-heading-block { text-align: center; max-width: 640px; }
+
+    .arm-sup {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+      padding: 0.28em 1em;
+      border: 1px solid rgba(201,162,39,0.3);
+      border-radius: 100px;
+      background: rgba(201,162,39,0.07);
+    }
+
+    .arm-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.18;
+      color: var(--cream);
+    }
+    .arm-title em { font-style: italic; color: var(--gold-pale); }
+
+    /* ---- Gold divider ---- */
+    .arm-divider {
+      width: 55px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    /* ---- Video wrapper (card) ---- */
+    .arm-card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--dark-card);
+      border: 1px solid rgba(201,162,39,0.18);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(201,162,39,0.07),
+        0 24px 70px rgba(0,0,0,0.75),
+        0 0 90px rgba(201,162,39,0.06);
+    }
+
+    /* ---- Native HTML5 video ---- */
+    #arm-video {
+      width: 100%;
+      display: block;
+      background: #000;
+      border-radius: 0;
+      /* allow browser native controls */
+      outline: none;
+    }
+
+    /* Chrome/Firefox/Safari style overrides */
+    #arm-video::-webkit-media-controls-panel {
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+
+    /* ---- Video caption below card ---- */
+    .arm-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.9rem 1.2rem;
+      border-top: 1px solid rgba(201,162,39,0.1);
+    }
+    .arm-meta-icon { font-size: 1rem; flex-shrink: 0; }
+    .arm-meta-text {
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.5);
+      line-height: 1.45;
+    }
+    .arm-meta-text strong {
+      display: block;
+      font-weight: 600;
+      color: rgba(245,240,232,0.8);
+      margin-bottom: 0.15rem;
+    }
+
+    /* ---- Source badge ---- */
+    .arm-source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.22em 0.75em;
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(201,162,39,0.08);
+      border: 1px solid rgba(201,162,39,0.22);
+      border-radius: 100px;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .arm-source-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: arm-dot-pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes arm-dot-pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    /* ---- Fallback ---- */
+    .arm-fallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.4rem;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .arm-fallback-icon { font-size: 2.5rem; }
+    .arm-fallback-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--cream);
+    }
+    .arm-fallback-desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: rgba(245,240,232,0.6);
+      max-width: 300px;
+    }
+    .arm-btn-ig {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(131,58,180,0.3);
+    }
+    .arm-btn-ig:hover { opacity: 0.88; transform: translateY(-2px); }
+    .arm-btn-ig svg { width: 17px; height: 17px; }
+
+    /* ---- Caption note ---- */
+    .arm-note {
+      font-size: 0.75rem;
+      color: rgba(245,240,232,0.32);
+      text-align: center;
+      max-width: 380px;
+      line-height: 1.55;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 480px) {
+      .arm-page { padding: 5rem 0.75rem 3rem; gap: 1.75rem; }
+      .arm-card { border-radius: 14px; }
+      .arm-title { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="arm-canvas" aria-hidden="true"></canvas>
+
+  <!-- Back link -->
+  <a class="arm-back" id="arm-back" aria-label="Go back to concert page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Back to Concert
+  </a>
+
+  <main class="arm-page">
+
+    <!-- Heading -->
+    <div class="arm-heading-block">
+      <span class="arm-sup">&#127925; A Special Message</span>
+      <h1 class="arm-title">A Special Message<br>From <em>A.R. Rahman</em></h1>
+    </div>
+
+    <div class="arm-divider" aria-hidden="true"></div>
+
+    <!-- Video card -->
+    <div class="arm-card" id="arm-card">
+
+      <!-- Native video player (primary) -->
+      <video
+        id="arm-video"
+        controls
+        playsinline
+        preload="metadata"
+        aria-label="A special message from A.R. Rahman"
+      >
+        <source src="videos/DI_hz2gJGBK.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+
+      <!-- Fallback shown if video fails -->
+      <div class="arm-fallback" id="arm-fallback" role="alert" aria-live="assertive">
+        <div class="arm-fallback-icon" aria-hidden="true">&#127925;</div>
+        <h2 class="arm-fallback-title">Watch on Instagram</h2>
+        <p class="arm-fallback-desc">
+          Tap below to watch the maestro's message directly on Instagram.
+        </p>
+        <a
+          href="https://www.instagram.com/reel/DI_hz2gJGBK/?igsh=MW5yaXhvb2JiNmpmYw=="
+          target="_blank"
+          rel="noopener noreferrer"
+          class="arm-btn-ig"
+          aria-label="Watch on Instagram"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+          Watch on Instagram
+        </a>
+      </div>
+
+      <!-- Meta strip -->
+      <div class="arm-meta" id="arm-meta">
+        <span class="arm-meta-icon" aria-hidden="true">&#127916;</span>
+        <div class="arm-meta-text">
+          <strong>A.R. Rahman</strong>
+          Downloaded &amp; served locally via MCP + yt-dlp
+        </div>
+        <span class="arm-source-badge">
+          <span class="arm-source-dot" aria-hidden="true"></span>
+          Local
+        </span>
+      </div>
+    </div>
+
+    <!-- Caption -->
+    <p class="arm-note">
+      Video retrieved directly via MCP yt-dlp server &mdash; no Instagram redirect needed.
+    </p>
+
+  </main>
+
+  <script>
+    /* ============================================================
+       ar-message.html — Local video player logic
+       Uses native <video> element with locally downloaded MP4.
+       Falls back to Instagram link if file is inaccessible.
+    ============================================================ */
+
+    var video     = document.getElementById('arm-video');
+    var fallback  = document.getElementById('arm-fallback');
+    var metaStrip = document.getElementById('arm-meta');
+
+    /* ---- Auto-play attempt (muted first, then unmuted) ---- */
+    function tryAutoplay() {
+      if (!video) return;
+      var playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(function () {
+          /* Autoplay blocked — browser policy; user will click play */
+        });
+      }
+    }
+
+    /* ---- Show fallback if video src fails ---- */
+    function onVideoError() {
+      try {
+        video.style.display   = 'none';
+        metaStrip.style.display = 'none';
+        fallback.style.display  = 'flex';
+      } catch (e) { /* silent */ }
+    }
+
+    if (video) {
+      video.addEventListener('error', onVideoError);
+      video.addEventListener('canplay', tryAutoplay, { once: true });
+
+      /* If video has no duration after 8s → show fallback */
+      setTimeout(function () {
+        if (video.readyState === 0) { onVideoError(); }
+      }, 8000);
+    }
+
+    /* ---- Back link ---- */
+    var backEl = document.getElementById('arm-back');
+    if (backEl) {
+      backEl.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (window.history.length > 1) { window.history.back(); }
+        else { window.close(); }
+      });
+    }
+
+    /* ---- Ambient gold particle canvas ---- */
+    (function () {
+      var canvas = document.getElementById('arm-canvas');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var pts = [];
+      var N   = 60;
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      for (var i = 0; i < N; i++) {
+        pts.push({
+          x:     Math.random() * window.innerWidth,
+          y:     Math.random() * window.innerHeight,
+          r:     0.4 + Math.random() * 1.5,
+          dx:    (Math.random() - 0.5) * 0.16,
+          dy:    -0.07 - Math.random() * 0.2,
+          o:     0.12 + Math.random() * 0.5,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pts.forEach(function (p) {
+          p.phase += 0.016;
+          var a = p.o * (0.55 + 0.45 * Math.sin(p.phase));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(201,162,39,' + a + ')';
+          ctx.fill();
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.y < -4)               p.y = canvas.height + 4;
+          if (p.x < -4)               p.x = canvas.width  + 4;
+          if (p.x > canvas.width + 4) p.x = -4;
+        });
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+  </script>
+
+</body>
+</html>
